@@ -18,7 +18,7 @@ public class JoinController {
 
     @PostMapping("/join")
     public String joinProcess(JoinDTO dto) {
-        log.info("username={}, password={}", dto.getUsername(), dto.getPassword())
+        log.info("username={}, password={}", dto.getUsername(), dto.getPassword());
         joinService.joinProcess(dto);
         return "ok";
     }
