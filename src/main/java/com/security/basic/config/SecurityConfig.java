@@ -1,5 +1,6 @@
 package com.security.basic.config;
 
+import com.security.basic.filter.JWTFilter;
 import com.security.basic.filter.LoginFilter;
 import com.security.basic.utill.JWTUtil;
 import org.springframework.context.annotation.Bean;
@@ -52,6 +53,7 @@ public class SecurityConfig {
                         .requestMatchers("/login", "/", "/join").permitAll()
                         .requestMatchers("/admin").hasRole("ADMIN")
                         .anyRequest().authenticated())
+                .addFilterBefore(new JWTFilter(jwtUtil), LoginFilter.class)
                 .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil), UsernamePasswordAuthenticationFilter.class)
                 //세션 설정
                 .sessionManagement((session) -> session
