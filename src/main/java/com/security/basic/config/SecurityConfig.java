@@ -1,5 +1,6 @@
 package com.security.basic.config;
 
+import com.security.basic.filter.JWTFilter;
 import com.security.basic.handler.CustomSuccessHandler;
 import com.security.basic.service.CustomOAuth2UserService;
 import com.security.basic.util.JWTUtil;
@@ -10,6 +11,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -36,6 +38,8 @@ public class SecurityConfig {
                 .formLogin((auth) -> auth.disable())
                 //HTTP Basic 인증 방식 disable
                 .httpBasic((auth) -> auth.disable())
+                // JWTFilter 추가
+                .addFilterBefore(new JWTFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class)
                 //oauth2
                 .oauth2Login((oauth2) -> oauth2
                         .userInfoEndpoint((userInfoEndpointConfig) -> userInfoEndpointConfig
